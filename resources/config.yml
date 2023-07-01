@@ -1,0 +1,46 @@
+#  __        __                                             
+#  \ \      / /   ___    __ _   _ __     ___    _ __    ___ 
+#   \ \ /\ / /   / _ \  / _` | | '_ \   / _ \  | '_ \  / __|
+#    \ V  V /   |  __/ | (_| | | |_) | | (_) | | | | | \__ \
+#     \_/\_/     \___|  \__,_| | .__/   \___/  |_| |_| |___/
+#                              |_|                          
+#                  by fernanACM and xBeastMode
+# A simple weapon plugin to play with your friends. For PocketMine-MP 4.0 servers only
+
+# DO NOT TOUCH
+config-version: "1.0.0"
+
+# Prefix plugin
+Prefix: "&l&f[&aWeapons&f]&8»&r "
+# Messages for weapons:
+Weapons:
+  ammo:
+    ammo-tip: "&aAmmo in use: &e{AMOUNT}"
+    no-ammo-tip: "&cOut of ammo!"
+    AMMO-name: "&l&9AMMO"
+  guns:
+    # Weapons Scope Type
+    reach: 2
+    type:
+      MG42-name: "&l&a{GUN}{LINE}&7[RIGHT CLICK]"
+      MP40-name: "&l&d{GUN}{LINE}&7[RIGHT CLICK]"
+      MINIGUN-name: "&l&f{GUN}{LINE}&7[RIGHT CLICK]"
+      THOMPSON-name: "&l&3{GUN}{LINE}&7[RIGHT CLICK]"
+      M1911-name: "&l&6{GUN}{LINE}&7[RIGHT CLICK]"
+      PANZERFAUST-name: "&l&e{GUN}{LINE}&7[RIGHT CLICK]"
+
+Form:
+  title: "&l&6WeaponManager"
+  content:
+    gun-list: "&eSelect a type of weapon:"
+    number-of-weapons: "&eNumber of weapons:"
+    amount-of-ammo: "&eAmount of ammo:"
+    player-name: "&eWrite the name of the player:"
+
+Messages:
+  not-a-number: "&cThis is not a number!"
+  no-permission: "&cYou don't have permissions to use this!"
+  successful-execution: "&6You have successfully received your equipment!"
+  successful-execution-target: "&bYou have sent a piece of equipment to: &a{TARGET}"
+  invalid-player: "&cThe player name is invalid"
+  weapon-invalid: "&cThe name of the weapon is not valid"

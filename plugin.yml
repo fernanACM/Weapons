@@ -1,0 +1,11 @@
+name: Weapons
+main: fernanACM\Weapons\Loader
+version: 1.0.0
+api: 5.0.0
+author: [fernanACM, xBeastMode]
+description: "A simple weapon plugin to play with your friends. For PocketMine-MP 5.0 servers only"
+website: https://github.com/fernanACM
+
+permissions:
+  weapons.cmd.acm:
+    default: op
