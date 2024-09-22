@@ -47,7 +47,7 @@ class GunManager{
      * @param integer|null $amount
      * @return void
      */
-    public static function giveGun(Player $player, string $gun, ?int $amount): void{
+    public static function giveGun(Player $player, string $gun, ?int $amount = null): void{
         switch($gun){
             case self::MG42:
                 $typeName = str_replace(["{GUN}"], [self::MG42], Loader::getMessage($player, "Weapons.guns.type.MG42-name"));

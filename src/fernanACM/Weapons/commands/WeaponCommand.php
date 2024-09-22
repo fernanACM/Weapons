@@ -90,8 +90,8 @@ class WeaponCommand extends BaseCommand{
             }
 
             $weapon = GunData::GUN_LIST[$data[0]];
-            GunManager::giveGun($target, $weapon, $data[1]);
-            GunManager::giveAmmo($target, $data[2]);
+            GunManager::giveGun($target, strval($weapon), intval($data[1] ?? 1));
+            GunManager::giveAmmo($target, intval($data[2]));
             $target->sendMessage(Loader::getPrefix(). Loader::getMessage($target, "Messages.successful-execution"));
             $player->sendMessage(Loader::getPrefix(). str_replace(["{TARGET}"], [$target->getName()], Loader::getMessage($player, "Messages.successful-execution-target")));
             PluginUtils::PlaySound($player, "random.levelup", 1, 5.1);
