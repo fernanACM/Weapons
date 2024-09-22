@@ -167,8 +167,6 @@ class GunManager{
         $nbt->setShort("PickupDelay", 10);
         $nbt->setTag("gunType", $itemTag);
         $entity = new BulletEntity($player->getLocation(), $ammo, $gunType, $player, $nbt);
-        $entity->exempt = $player;
-        $entity->gunType = $gunType;
         $entity->spawnToAll();
         return true;
     }
