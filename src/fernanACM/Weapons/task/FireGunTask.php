@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons\task;
 
 use pocketmine\player\Player;
@@ -26,18 +28,18 @@ use fernanACM\Weapons\utils\PluginUtils;
 class FireGunTask extends Task{
 
     /** @var Player $player */
-    protected $player;
+    protected Player $player;
 
     /** @var Item $gun */
-    protected $gun;
+    protected Item $gun;
 
-    /** @var Item $ammo */
-    protected $ammo;
+    /** @var Item|null $ammo */
+    protected ?Item $ammo = null;
 
     /** @var int $amount */
-    protected $amount = 0;
+    protected int $amount = 0;
     /** @var int $slot */
-    protected $slot = 0;
+    protected int $slot = 0;
 
     public function __construct(Player $player, Item $item){
         $this->player = $player;
@@ -52,6 +54,13 @@ class FireGunTask extends Task{
      * @return void
      */
     public function onRun(): void{
+        if(is_null($this->ammo)){
+            PluginUtils::BroadSound($this->player, "random.click", 500, 0.5);
+            $this->player->sendTip(Loader::getMessage($this->player, "Weapons.ammo.no-ammo-tip"));
+            $this->cancel();
+            return;
+        }
+
         if($this->amount <= 0){
             if(!is_null($this->ammo)){
                 if($this->ammo->getCount() > 1){

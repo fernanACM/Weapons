@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons;
 
 use pocketmine\event\Listener;
@@ -55,10 +57,12 @@ class Event implements Listener{
         $item = $event->getItem();
         $block = $event->getBlock();
         if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("gunType")){
-            if($block->getTypeId() === BlockTypeIds::DIRT || 
-               $block->getTypeId() === BlockTypeIds::DIRT ||
-               $block->getTypeId() === BlockTypeIds::GRASS){
-                $event->cancel();
+            switch($block->getTypeId()){
+                case BlockTypeIds::GLASS:
+                case BlockTypeIds::DIRT:
+                case BlockTypeIds::PODZOL:
+                    $event->cancel();
+                break;
             }
         }
     }

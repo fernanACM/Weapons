@@ -5,7 +5,7 @@
 #     \_/\_/     \___|  \__,_| | .__/   \___/  |_| |_| |___/
 #                              |_|                          
 #                  by fernanACM and xBeastMode
-# A simple weapon plugin to play with your friends. For PocketMine-MP 4.0 servers only
+# A simple weapon plugin to play with your friends. For PocketMine-MP 5.0 servers only
 
 # DO NOT TOUCH
 config-version: "1.0.0"

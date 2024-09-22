@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons\commands\subcommands;
 
 use pocketmine\Server;
@@ -48,33 +50,33 @@ class GiveAmmoSubCommand extends BaseSubCommand{
         }
 
         if(!$sender->hasPermission("weapons.cmd.acm")){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.no-permission"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.no-permission"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         if(!isset($args["amount"])){
-            $sender->sendMessage(Loader::Prefix(). "§cUsa: /weapons ammo <amount>");
+            $sender->sendMessage(Loader::getPrefix(). "§cUsa: /weapons ammo <amount>");
             PluginUtils::PlaySound($sender, "random.pop", 1, 1);
             return;
         }
 
         $amount = $args["amount"] ?? 1;
         if(!is_numeric($amount)){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.not-a-number"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.not-a-number"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         $target = empty($args["player"]) ? $sender : Server::getInstance()->getPlayerExact($args["player"]);
         if(!$target instanceof Player){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.invalid-player"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.invalid-player"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
         GunManager::giveAmmo($target, $amount);
-        $target->sendMessage(Loader::Prefix(). Loader::getMessage($target, "Messages.successful-execution"));
-        $sender->sendMessage(Loader::Prefix(). str_replace(["{TARGET}"], [$target->getName()], Loader::getMessage($sender, "Messages.successful-execution-target")));
+        $target->sendMessage(Loader::getPrefix(). Loader::getMessage($target, "Messages.successful-execution"));
+        $sender->sendMessage(Loader::getPrefix(). str_replace(["{TARGET}"], [$target->getName()], Loader::getMessage($sender, "Messages.successful-execution-target")));
         PluginUtils::PlaySound($target, "random.levelup", 1, 5.1);
     }
 }

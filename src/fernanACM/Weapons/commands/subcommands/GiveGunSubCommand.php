@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons\commands\subcommands;
 
 use pocketmine\Server;
@@ -52,53 +54,53 @@ class GiveGunSubCommand extends BaseSubCommand{
         }
 
         if(!$sender->hasPermission("weapons.cmd.acm")){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.no-permission"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.no-permission"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         if(!isset($args["type"])){
-            $sender->sendMessage(Loader::Prefix(). "§cUsa: /weapons guns <type> <amount>");
+            $sender->sendMessage(Loader::getPrefix(). "§cUsa: /weapons guns <type> <amount>");
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         $gun = strtolower($args["type"]);
         if(!isset($gun)){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.weapon-invalid"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.weapon-invalid"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         if(!in_array($gun, GunData::GUN_LIST)){
-            $sender->sendMessage(Loader::Prefix(). "§b$gun §cis not a known gun.");
-            $sender->sendMessage(Loader::Prefix(). "§eGun list: §f" . implode(", ", GunData::GUN_LIST));
+            $sender->sendMessage(Loader::getPrefix(). "§b$gun §cis not a known gun.");
+            $sender->sendMessage(Loader::getPrefix(). "§eGun list: §f" . implode(", ", GunData::GUN_LIST));
             PluginUtils::PlaySound($sender, "random.pop", 1, 1);
             return;
         }
 
         if(!isset($args["amount"])){
-            $sender->sendMessage(Loader::Prefix(). "§cUsa: /weapons guns <type> <amount>");
+            $sender->sendMessage(Loader::getPrefix(). "§cUsa: /weapons guns <type> <amount>");
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
 
         $amount = $args["amount"] ?? 1;
         if(!is_numeric($amount)){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.not-a-number"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.not-a-number"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
         
         $target = empty($args["player"]) ? $sender : Server::getInstance()->getPlayerExact($args["player"]);
         if(!$target instanceof Player){
-            $sender->sendMessage(Loader::Prefix(). Loader::getMessage($sender, "Messages.invalid-player"));
+            $sender->sendMessage(Loader::getPrefix(). Loader::getMessage($sender, "Messages.invalid-player"));
             PluginUtils::PlaySound($sender, "mob.villager.no", 1, 1);
             return;
         }
         GunManager::giveGun($target, $gun, $amount);
-        $target->sendMessage(Loader::Prefix(). Loader::getMessage($target, "Messages.successful-execution"));
-        $sender->sendMessage(Loader::Prefix(). str_replace(["{TARGET}"], [$target->getName()], Loader::getMessage($sender, "Messages.successful-execution-target")));
+        $target->sendMessage(Loader::getPrefix(). Loader::getMessage($target, "Messages.successful-execution"));
+        $sender->sendMessage(Loader::getPrefix(). str_replace(["{TARGET}"], [$target->getName()], Loader::getMessage($sender, "Messages.successful-execution-target")));
         PluginUtils::PlaySound($target, "random.levelup", 1, 5.1);
     }
 }

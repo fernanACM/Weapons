@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons\guns\entity;
 
 use pocketmine\player\Player;
@@ -34,7 +36,9 @@ class BulletEntity extends ItemEntity{
     /** @var Entity $exempt */
     public Entity $exempt;
 
-    public function __construct(Location $location, Item $item, ?CompoundTag $nbt){
+    public function __construct(Location $location, Item $item, ?string $gunType, ?Entity $exempt, ?CompoundTag $nbt){
+        $this->gunType = $gunType;
+        $this->exempt = $exempt;
         parent::__construct($location, $item, $nbt);
     }
 
@@ -44,14 +48,13 @@ class BulletEntity extends ItemEntity{
      */
     public function onUpdate(int $currentTick): bool{
         if($this->onGround){
-                $this->flagForDespawn();
+            $this->flagForDespawn();
+            if(isset(GunData::EXPLODE[$this->gunType])){
+                $rad = GunData::EXPLODE[$this->gunType];
 
-                if(isset(GunData::EXPLODE[$this->gunType])){
-                        $rad = GunData::EXPLODE[$this->gunType];
-
-                        $explode = new Explosion($this->getPosition(), $rad);
-                        $explode->explodeB();
-                }
+                $explode = new Explosion($this->getPosition(), $rad);
+                $explode->explodeB();
+            }
         }
         return parent::onUpdate($currentTick);
     }
@@ -63,13 +66,13 @@ class BulletEntity extends ItemEntity{
     public function onCollideWithPlayer(Player $player): void{
         if(!$this->onGround){
             if($player === $this->exempt)return;
-                $event = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_ENTITY_ATTACK, GunData::DAMAGES[$this->gunType]);
-                $event->setAttackCooldown(0);
-                $player->attack($event);
-                if(isset(GunData::EXPLODE[$this->gunType])){
-                        $rad = GunData::EXPLODE[$this->gunType];
-                        $explode = new Explosion($this->getPosition(), $rad);
-                        $explode->explodeB();
+            $event = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_ENTITY_ATTACK, GunData::DAMAGES[$this->gunType]);
+            $event->setAttackCooldown(0);
+            $player->attack($event);
+            if(isset(GunData::EXPLODE[$this->gunType])){
+                $rad = GunData::EXPLODE[$this->gunType];
+                $explode = new Explosion($this->getPosition(), $rad);
+                $explode->explodeB();
             }
             $this->flagForDespawn();
         }

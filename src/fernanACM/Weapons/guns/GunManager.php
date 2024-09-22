@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons\guns;
 
 use pocketmine\player\Player;
@@ -164,7 +166,7 @@ class GunManager{
         $nbt->setShort("Health", 5);
         $nbt->setShort("PickupDelay", 10);
         $nbt->setTag("gunType", $itemTag);
-        $entity = new BulletEntity($player->getLocation(), $ammo, $nbt);
+        $entity = new BulletEntity($player->getLocation(), $ammo, $gunType, $player, $nbt);
         $entity->exempt = $player;
         $entity->gunType = $gunType;
         $entity->spawnToAll();

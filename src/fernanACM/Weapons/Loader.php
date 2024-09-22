@@ -8,6 +8,8 @@
 # The creator of this plugin was fernanACM.
 # https://github.com/fernanACM
 
+declare(strict_types=1);
+
 namespace fernanACM\Weapons;
 
 use pocketmine\Server;
@@ -17,6 +19,7 @@ use pocketmine\plugin\PluginBase;
 
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\SingletonTrait;
 
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\EntityFactory;
@@ -38,6 +41,7 @@ use CortexPE\Commando\BaseCommand;
 use CortexPE\Commando\PacketHooker;
 
 use DaPigGuy\libPiggyUpdateChecker\libPiggyUpdateChecker;
+
 use fernanACM\Weapons\commands\WeaponCommand;
 use fernanACM\Weapons\guns\entity\BulletEntity;
 # My files
@@ -46,12 +50,13 @@ use fernanACM\Weapons\Event;
 use fernanACM\Weapons\utils\PluginUtils;
 
 class Loader extends PluginBase{
+    use SingletonTrait{
+        setInstance as protected;
+        reset as protected;
+    }
 
     /** @var Config $config */
     public Config $config;
-    
-    /** @var Loader $instance */
-    private static Loader $instance;
 
     # CheckConfig
     public const CONFIG_VERSION = "1.0.0";
@@ -60,7 +65,7 @@ class Loader extends PluginBase{
      * @return void
      */
     public function onLoad(): void{
-        self::$instance = $this;
+        self::setInstance($this);
         $this->loadFiles();
     }
 
@@ -119,7 +124,7 @@ class Loader extends PluginBase{
             if($item->isNull()){
                 throw new SavedDataLoadingException("Item is invalid");
             }
-            return new BulletEntity(EntityDataHelper::parseLocation($nbt, $world), $item, $nbt);
+            return new BulletEntity(EntityDataHelper::parseLocation($nbt, $world), $item, "", null, $nbt);
         }, ['BulletEntity']);
     }
 
@@ -163,16 +168,9 @@ class Loader extends PluginBase{
     }
 
     /**
-     * @return Loader
-     */
-    public static function getInstance(): Loader{
-        return self::$instance;
-    }
-
-    /**
      * @return string
      */
-    public static function Prefix(): string{
+    public static function getPrefix(): string{
         return TextFormat::colorize(self::$instance->config->get("Prefix"));
     }
 }
